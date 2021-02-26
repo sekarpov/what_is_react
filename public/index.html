@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="\">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>What Is React - Elisdn</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="root">
+
+</div>
+
+<script>
+	const state = {
+	    time: new Date(),
+		lots: [
+			{
+			    id: 1,
+				name: 'Apple',
+				description: 'Apple description',
+				price: 16
+			},
+			{
+			    id: 2,
+				name: 'Orange',
+				description: 'Orange description',
+				price: 41
+			}
+		]
+	}
+	//#########################################
+
+	function App({ state }){
+	    const node = document.createElement('div')
+		node.className = 'app'
+
+		node.append(Header())
+		node.append(Clock({ time: state.time }))
+		node.append(Lots({ lots: state.lots }))
+
+		return node
+	}
+
+	function Header() {
+	    const node = document.createElement('header')
+		node.className = 'header'
+
+		node.append(Logo())
+		return node
+	}
+
+	function Logo () {
+	    const node = document.createElement('img')
+		node.className = 'logo'
+		node.src = 'logo.png'
+		return node
+	}
+
+	function Clock ({ time }) {
+	    const node = document.createElement('div')
+		node.className = 'clock'
+		node.innerText = time.toLocaleTimeString()
+		return node
+	}
+
+	function Lots ({ lots }) {
+	    const node = document.createElement('div')
+		node.className = 'lots'
+		lots.forEach((lot) => {
+		    node.append(Lot({ lot }))
+		})
+        return node
+	}
+
+	function Lot ({ lot }) {
+	    const node = document.createElement('article')
+		node.className = 'lot'
+
+		const price = document.createElement('div')
+		price.className = 'price'
+		price.innerText = lot.price
+		node.append(price)
+
+		const name = document.createElement('h1')
+		name.innerText = lot.name
+		node.append(name)
+
+		const description = document.createElement('p')
+		description.innerText = lot.description
+		node.append(description)
+
+		return node
+	}
+
+	//######################################################
+
+	render(
+	    App({ state }),
+		document.getElementById('root')
+	)
+
+	//######################################################
+
+	function render (newDom, realDomRoot) {
+	    realDomRoot.append(newDom)
+	}
+
+
+</script>
+</body>
+</html>
