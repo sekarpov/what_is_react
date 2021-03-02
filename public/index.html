@@ -15,7 +15,7 @@
 </div>
 
 <script>
-	const state = {
+	let state = {
 	    time: new Date(),
 		lots: [
 			{
@@ -114,27 +114,30 @@
 
 	//######################################################
 
-	render(
-	    App({ state }),
-		document.getElementById('root')
-	)
+	function renderView (state) {
+	    render(
+	        App({state}),
+		    document.getElementById('root')
+	    )
+	}
+
+	renderView(state)
 
 	//######################################################
 
 	setInterval(() => {
-		const time = new Date()
+		state = {
+		    ...state,
+			time: new Date()
+		}
 
-		const app = document.getElementById('root').querySelector('.app')
-
-		const clock = app.querySelector('.clock')
-		const newClock = Clock({time})
-
-		app.replaceChild(newClock, clock)
+        renderView(state)
 	}, 1000)
 
 	//######################################################
 
 	function render (newDom, realDomRoot) {
+	    realDomRoot.innerHTML = ''
 	    realDomRoot.append(newDom)
 	}
 

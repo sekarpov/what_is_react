@@ -54,3 +54,18 @@ body {
     border-radius: 6px;
     margin-bottom: 10px;
 }
+
+.lot .price {
+    float: right;
+    text-align: right;
+    font-size: 1.2rem;
+}
+
+.lot h1 {
+    margin: 0 0 15px 0;
+    line-height: 1;
+}
+
+.lot p {
+    margin: 0 0 15px 0;
+}
