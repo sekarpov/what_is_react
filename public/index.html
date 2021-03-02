@@ -45,6 +45,20 @@
         }
     }
 
+    const stream = {
+        subscribe (channel, listener) {
+            const match = /price-(\d+)/.exec(channel)
+	        if (match) {
+	            setInterval(() => {
+	                listener({
+		                id: parseInt(match[1]),
+		                price: Math.round((Math.random() * 10 + 30))
+	                })
+	            }, 400)
+	        }
+        }
+    }
+
     //#########################################
 
 	let state = {
@@ -166,13 +180,32 @@
 	}, 1000)
 
 	api.get('/lots').then((lots) => {
-			state = {
-			    ...state,
-				lots
-			}
+        state = {
+            ...state,
+            lots
+        }
+        renderView(state)
 
-			renderView(state)
+		const onPrice = (data) => {
+            state = {
+                ...state,
+                lots: state.lots.map((lot) => {
+                    if(lot.id === data.id) {
+                        return {
+                            ...lot,
+                            price: data.price
+                        }
+                    }
+	                return lot
+                })
+            }
+            renderView(state)
+		}
+
+		lots.forEach((lot) => {
+		    stream.subscribe(`price-${lot.id}`, onPrice)
 		})
+    })
 
 	//######################################################
 
